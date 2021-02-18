@@ -1,15 +1,27 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Net;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace Downloader
 {
     public partial class Form1 : Form
     {
+        public enum EnumLinks
+        {
+            ADOPTOPENJDK = 0,
+            STEAM = 1,
+            VISUALSTUDIOCODE = 2,
+            GIT = 3,
+            INTELLIJ = 4
+        }
+        private Dictionary<EnumLinks, string> linkMap = new Dictionary<EnumLinks, string>();
+
         public Form1()
         {
             InitializeComponent();
+            linkMap.Add(EnumLinks.ADOPTOPENJDK, "https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download/jdk-11.0.10%2B9/OpenJDK11U-jdk_x64_windows_hotspot_11.0.10_9.msi");
         }
 
         void wc_DownloadProgressChanged(object s, DownloadProgressChangedEventArgs e)
@@ -29,8 +41,7 @@ namespace Downloader
             WebClient wc = new WebClient();
             wc.DownloadProgressChanged += new DownloadProgressChangedEventHandler(wc_DownloadProgressChanged);
             wc.DownloadFileCompleted += new AsyncCompletedEventHandler(wc_DownloadFileCompleted);
-            wc.DownloadFileAsync(new Uri("https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download/jdk-11.0.10%2B9/OpenJDK11U-jdk_x64_windows_hotspot_11.0.10_9.msi"),
-                "OpenJDK11U-jdk_x64_windows_hotspot_11.0.10_9.msi");
+            wc.DownloadFileAsync(new Uri(linkMap[EnumLinks.ADOPTOPENJDK]),"OpenJDK11U-jdk_x64_windows_hotspot_11.0.10_9.msi");
             button1.Enabled = false;
         }
     }
