@@ -16,12 +16,12 @@ namespace Downloader
             GIT = 3,
             INTELLIJ = 4
         }
-        private Dictionary<EnumLinks, string> linkMap = new Dictionary<EnumLinks, string>();
+        private Dictionary<EnumLinks, string> linkMap;
 
         public Form1()
         {
             InitializeComponent();
-            linkMap.Add(EnumLinks.ADOPTOPENJDK, "https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download/jdk-11.0.10%2B9/OpenJDK11U-jdk_x64_windows_hotspot_11.0.10_9.msi");
+            LoadDictionnary();
         }
 
         void wc_DownloadProgressChanged(object s, DownloadProgressChangedEventArgs e)
@@ -43,6 +43,13 @@ namespace Downloader
             wc.DownloadFileCompleted += new AsyncCompletedEventHandler(wc_DownloadFileCompleted);
             wc.DownloadFileAsync(new Uri(linkMap[EnumLinks.ADOPTOPENJDK]),"OpenJDK11U-jdk_x64_windows_hotspot_11.0.10_9.msi");
             button1.Enabled = false;
+        }
+
+        private void LoadDictionnary()
+        {
+            Dictionary<EnumLinks, string> linkMapLocal = new Dictionary<EnumLinks, string>();
+            linkMap.Add(EnumLinks.ADOPTOPENJDK, UrlLink.adoptOpenJdkUrl);
+            this.linkMap = linkMapLocal;
         }
     }
 }
