@@ -11,10 +11,7 @@ namespace Downloader
         public enum EnumLinks
         {
             ADOPTOPENJDK = 0,
-            STEAM = 1,
-            VISUALSTUDIOCODE = 2,
-            GIT = 3,
-            INTELLIJ = 4
+            AVAST=1
         }
         private Dictionary<EnumLinks, string> linkMap;
 
@@ -31,6 +28,7 @@ namespace Downloader
 
         void wc_DownloadFileCompleted(object s, AsyncCompletedEventArgs e)
         {
+            label1.Visible = false;
             MessageBox.Show("Téléchargement terminé", "info",  MessageBoxButtons.OK);
             button1.Enabled = true;
         }
@@ -38,17 +36,21 @@ namespace Downloader
         private void button1_Click(object sender, EventArgs e)
         {
             Console.WriteLine("Démarrage du téléchargement du JDK");
+            label1.Text = "Téléchargement d'AdoptOpenJDK...";
+            label1.Visible = true;
             WebClient wc = new WebClient();
             wc.DownloadProgressChanged += new DownloadProgressChangedEventHandler(wc_DownloadProgressChanged);
             wc.DownloadFileCompleted += new AsyncCompletedEventHandler(wc_DownloadFileCompleted);
-            wc.DownloadFileAsync(new Uri(linkMap[EnumLinks.ADOPTOPENJDK]),"OpenJDK11U-jdk_x64_windows_hotspot_11.0.10_9.msi");
-            button1.Enabled = false;
+            wc.DownloadFileAsync(new Uri(UrlLink.adoptOpenJdkUrl), "jdk_x64_windows_hotspot_11.0.10_9.msi");
+
         }
 
         private void LoadDictionnary()
         {
-            Dictionary<EnumLinks, string> linkMapLocal = new Dictionary<EnumLinks, string>();
-            linkMap.Add(EnumLinks.ADOPTOPENJDK, UrlLink.adoptOpenJdkUrl);
+            Dictionary<EnumLinks, string> linkMapLocal = new Dictionary<EnumLinks, string>
+            {
+                { EnumLinks.ADOPTOPENJDK, UrlLink.adoptOpenJdkUrl }
+            };
             this.linkMap = linkMapLocal;
         }
     }
