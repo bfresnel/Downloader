@@ -24,6 +24,7 @@ namespace Downloader
         void wc_DownloadProgressChanged(object s, DownloadProgressChangedEventArgs e)
         {
             progressBar1.Value = e.ProgressPercentage;
+            label1.Text = "Téléchargement d'AdoptOpenJDK..." + e.ProgressPercentage;
         }
 
         void wc_DownloadFileCompleted(object s, AsyncCompletedEventArgs e)
