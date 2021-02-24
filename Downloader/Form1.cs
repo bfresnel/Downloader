@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using System.Net;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Resources;
 
 namespace Downloader
 {
@@ -10,6 +11,7 @@ namespace Downloader
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         private bool CanStartAnotherDownload = false;
+        //private ResourceManager rm = new ResourceManager();
 
         public enum EnumLinks
         {
@@ -43,10 +45,7 @@ namespace Downloader
             Logger.Info("Démarrage du téléchargement du JDK");
             label1.Text = "Téléchargement d'AdoptOpenJDK...";
             label1.Visible = true;
-            WebClient wc = new WebClient();
-            wc.DownloadProgressChanged += new DownloadProgressChangedEventHandler(wc_DownloadProgressChanged);
-            wc.DownloadFileCompleted += new AsyncCompletedEventHandler(wc_DownloadFileCompleted);
-            wc.DownloadFileAsync(new Uri(UrlLink.adoptOpenJdkUrl), "jdk_x64_windows_hotspot_11.0.10_9.msi");
+            DownloadSoftware(new List<string>());
             this.CanStartAnotherDownload = false;
         }
 
@@ -57,6 +56,22 @@ namespace Downloader
                 { EnumLinks.ADOPTOPENJDK, UrlLink.adoptOpenJdkUrl }
             };
             this.linkMap = linkMapLocal;
+        }
+
+        private void DownloadSoftware(List<String> softwareList)
+        {
+            if (softwareList.Count > 0)
+            {
+                foreach(String software in softwareList)
+                {
+
+                    WebClient wc = new WebClient();
+                    wc.DownloadProgressChanged += new DownloadProgressChangedEventHandler(wc_DownloadProgressChanged);
+                    wc.DownloadFileCompleted += new AsyncCompletedEventHandler(wc_DownloadFileCompleted);
+                    wc.DownloadFileAsync(new Uri(UrlLink.adoptOpenJdkUrl), "jdk_x64_windows_hotspot_11.0.10_9.msi");
+                }
+
+            }
         }
     }
 }
