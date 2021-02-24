@@ -8,6 +8,7 @@ namespace Downloader
 {
     public partial class Form1 : Form
     {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         public enum EnumLinks
         {
             ADOPTOPENJDK = 0,
@@ -36,7 +37,7 @@ namespace Downloader
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Console.WriteLine("Démarrage du téléchargement du JDK");
+            Logger.Debug("Démarrage du téléchargement du JDK");
             label1.Text = "Téléchargement d'AdoptOpenJDK...";
             label1.Visible = true;
             WebClient wc = new WebClient();
