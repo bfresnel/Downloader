@@ -9,6 +9,8 @@ namespace Downloader
     public partial class Form1 : Form
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+        private bool CanStartAnotherDownload = false;
+
         public enum EnumLinks
         {
             ADOPTOPENJDK = 0,
@@ -33,6 +35,7 @@ namespace Downloader
             label1.Visible = false;
             MessageBox.Show("Téléchargement terminé", "info",  MessageBoxButtons.OK);
             button1.Enabled = true;
+            this.CanStartAnotherDownload = true;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -44,7 +47,7 @@ namespace Downloader
             wc.DownloadProgressChanged += new DownloadProgressChangedEventHandler(wc_DownloadProgressChanged);
             wc.DownloadFileCompleted += new AsyncCompletedEventHandler(wc_DownloadFileCompleted);
             wc.DownloadFileAsync(new Uri(UrlLink.adoptOpenJdkUrl), "jdk_x64_windows_hotspot_11.0.10_9.msi");
-
+            this.CanStartAnotherDownload = false;
         }
 
         private void LoadDictionnary()
