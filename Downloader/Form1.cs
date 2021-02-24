@@ -33,14 +33,14 @@ namespace Downloader
         void wc_DownloadFileCompleted(object s, AsyncCompletedEventArgs e)
         {
             label1.Visible = false;
-            MessageBox.Show("Téléchargement terminé", "info",  MessageBoxButtons.OK);
+            MessageBox.Show("Téléchargement terminé", "info",  MessageBoxButtons.OK, MessageBoxIcon.Information);
             button1.Enabled = true;
             this.CanStartAnotherDownload = true;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Logger.Debug("Démarrage du téléchargement du JDK");
+            Logger.Info("Démarrage du téléchargement du JDK");
             label1.Text = "Téléchargement d'AdoptOpenJDK...";
             label1.Visible = true;
             WebClient wc = new WebClient();
