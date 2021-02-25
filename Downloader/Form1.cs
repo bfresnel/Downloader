@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Windows.Forms;
-using System.Net;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Resources;
+using System.Net;
+using System.Windows.Forms;
 
 namespace Downloader
 {
@@ -11,14 +10,8 @@ namespace Downloader
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         private bool CanStartAnotherDownload = false;
+        private Dictionary<UrlLink.EnumLinks, string> LinkMap;
         //private ResourceManager rm = new ResourceManager();
-
-        public enum EnumLinks
-        {
-            ADOPTOPENJDK = 0,
-            AVAST=1
-        }
-        private Dictionary<EnumLinks, string> linkMap;
 
         public Form1()
         {
@@ -29,15 +22,15 @@ namespace Downloader
         void wc_DownloadProgressChanged(object s, DownloadProgressChangedEventArgs e)
         {
             progressBar1.Value = e.ProgressPercentage;
-            label1.Text = "Téléchargement d'AdoptOpenJDK..." + e.ProgressPercentage;
+            label1.Text = "Téléchargement d'AdoptOpenJDK..." + e.ProgressPercentage + "%";
         }
 
         void wc_DownloadFileCompleted(object s, AsyncCompletedEventArgs e)
         {
             label1.Visible = false;
-            MessageBox.Show("Téléchargement terminé", "info",  MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Téléchargement terminé", "info", MessageBoxButtons.OK, MessageBoxIcon.Information);
             button1.Enabled = true;
-            this.CanStartAnotherDownload = true;
+            CanStartAnotherDownload = true;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -45,32 +38,33 @@ namespace Downloader
             Logger.Info("Démarrage du téléchargement du JDK");
             label1.Text = "Téléchargement d'AdoptOpenJDK...";
             label1.Visible = true;
-            DownloadSoftware(new List<string>());
-            this.CanStartAnotherDownload = false;
+            WebClient wc = new WebClient();
+            wc.DownloadProgressChanged += new DownloadProgressChangedEventHandler(wc_DownloadProgressChanged);
+            wc.DownloadFileCompleted += new AsyncCompletedEventHandler(wc_DownloadFileCompleted);
+            wc.DownloadFileAsync(new Uri(UrlLink.adoptOpenJdkUrl), UrlLink.adoptOpenJdkFileName);
+            CanStartAnotherDownload = false;
         }
 
         private void LoadDictionnary()
         {
-            Dictionary<EnumLinks, string> linkMapLocal = new Dictionary<EnumLinks, string>
+            Dictionary<UrlLink.EnumLinks, string> linkMapLocal = new Dictionary<UrlLink.EnumLinks, string>
             {
-                { EnumLinks.ADOPTOPENJDK, UrlLink.adoptOpenJdkUrl }
+                { UrlLink.EnumLinks.ADOPTOPENJDK, UrlLink.adoptOpenJdkUrl }
             };
-            this.linkMap = linkMapLocal;
+            LinkMap = linkMapLocal;
         }
 
-        private void DownloadSoftware(List<String> softwareList)
+        private void DownloadSoftware(List<string> softwareList)
         {
             if (softwareList.Count > 0)
             {
-                foreach(String software in softwareList)
+                foreach (string software in softwareList)
                 {
-
                     WebClient wc = new WebClient();
                     wc.DownloadProgressChanged += new DownloadProgressChangedEventHandler(wc_DownloadProgressChanged);
                     wc.DownloadFileCompleted += new AsyncCompletedEventHandler(wc_DownloadFileCompleted);
-                    wc.DownloadFileAsync(new Uri(UrlLink.adoptOpenJdkUrl), "jdk_x64_windows_hotspot_11.0.10_9.msi");
+                    wc.DownloadFileAsync(new Uri(UrlLink.adoptOpenJdkUrl), UrlLink.adoptOpenJdkFileName);
                 }
-
             }
         }
     }
