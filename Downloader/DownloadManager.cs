@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Net;
 using System.Windows.Forms;
@@ -7,32 +8,56 @@ namespace Downloader
 {
     class DownloadManager
     {
-
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         private WebClient WebClient;
-        private DownloadProgressChangedEventHandler DownloadProgressChangedEventHandler;
-        private AsyncCompletedEventHandler AsyncCompletedEventHandler;
+        private ProgressBar ProgressBar;
+        private Label Label;
+        private List<string> FilesToDownload;
 
         public DownloadManager()
         {
             WebClient = new WebClient();
         }
 
-        public void DownloadFileAsync()
+        public DownloadManager(ProgressBar progressBar, Label label)
         {
-            WebClient wc = new WebClient();
-            wc.DownloadProgressChanged += new DownloadProgressChangedEventHandler(wc_DownloadProgressChanged);
-            wc.DownloadFileCompleted += new AsyncCompletedEventHandler(wc_DownloadFileCompleted);
-            wc.DownloadFileAsync(new Uri(UrlLink.adoptOpenJdkUrl), UrlLink.adoptOpenJdkFileName);
+            WebClient = new WebClient();
+            ProgressBar = progressBar;
+            Label = label;
         }
 
-        private void wc_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
+        public void DownloadFile(List<string> filesToDownload)
         {
+            FilesToDownload = filesToDownload;
+            WebClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(DownloadProgressChanged);
+            WebClient.DownloadFileCompleted += new AsyncCompletedEventHandler(DownloadFileCompleted);
+            WebClient.DownloadFileAsync(new Uri(UrlLink.adoptOpenJdkUrl), UrlLink.adoptOpenJdkFileName);
+            Label.Text = "Téléchargement d'AdoptOpenJDK...";
+            Label.Visible = true;
+        }
+
+        private void DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
+        {
+            Label.Text = "Téléchargement d'AdoptOpenJDK..." + e.ProgressPercentage + "%";
+            if (ProgressBar != null)
+            {
+                updateProgressBar(ProgressBar, e.ProgressPercentage);
+            }
+        }
+
+        private void DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
+        {
+            Logger.Info("Download completed");
+            Logger.Debug("DownloadFileCompleted() -> isBusy ? " + WebClient.IsBusy);
+            FilesToDownload.Remove(UrlLink.adoptOpenJdkFileName);
             MessageBox.Show("Téléchargement terminé", "info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            Label.Visible = false;
+
         }
 
-        private void wc_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
+        private void updateProgressBar(ProgressBar progressBar, int pourcentage)
         {
-
+            progressBar.Value = pourcentage;
         }
 
     }
