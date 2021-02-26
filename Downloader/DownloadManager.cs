@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Net;
 using System.Threading.Tasks;
@@ -27,25 +28,26 @@ namespace Downloader
             Button = button;
         }
 
-        public async Task<bool> DownloadFile(string fileName)
+        public async Task<bool> DownloadFile(List<string> fileList)
         {
             bool result = false;
             WebClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(DownloadProgressChanged);
             WebClient.DownloadFileCompleted += new AsyncCompletedEventHandler(DownloadFileCompleted);
-            try
+            foreach(string file in fileList)
             {
-                Label.Text = "Téléchargement d'AdoptOpenJDK...";
-                Label.Visible = true;
-                await WebClient.DownloadFileTaskAsync(new Uri(UrlLink.adoptOpenJdkUrl), UrlLink.adoptOpenJdkFileName);
-                result = true;
-
+                try
+                {
+                    Logger.Info("Downloading {0}...", file);
+                    await WebClient.DownloadFileTaskAsync(new Uri(UrlLink.adoptOpenJdkUrl), UrlLink.adoptOpenJdkFileName);
+                    Logger.Info("Download for {0} completed !", file);
+                    result = true;
+                }
+                catch (Exception ex)
+                {
+                    result = false;
+                    throw new Exception(ex.Message);
+                }
             }
-            catch (Exception ex)
-            {
-                result = false;
-                throw new Exception(ex.Message);
-            }
-
             return result;
         }
 
@@ -60,11 +62,7 @@ namespace Downloader
 
         private void DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
-            Logger.Info("Download completed");
-            MessageBox.Show("Téléchargement terminé", "info", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            Label.Visible = false;
-            Button.Enabled = true;
-
+            Logger.Debug("Download completed");
         }
 
         private void updateProgressBar(ProgressBar progressBar, int pourcentage)
