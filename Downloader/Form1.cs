@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Downloader
@@ -14,15 +15,19 @@ namespace Downloader
         {
             InitializeComponent();
             LoadDictionnary();
-            downloadManager = new DownloadManager(progressBar1, label1);
+            downloadManager = new DownloadManager(progressBar1, label1, button1);
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
+            button1.Enabled = false;
             List<string> files = new List<string>();
             files.Add(UrlLink.adoptOpenJdkFileName);
             Logger.Info("Démarrage du téléchargement du JDK");
-            downloadManager.DownloadFile(files);
+            foreach(string fileToDownload in files)
+            {
+                Task task = downloadManager.DownloadFile(fileToDownload);
+            }
         }
 
         private void LoadDictionnary()
