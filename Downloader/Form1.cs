@@ -10,13 +10,24 @@ namespace Downloader
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         private Dictionary<UrlLink.EnumLinks, string> LinkMap;
         private DownloadManager downloadManager;
-        private DialogResult dr;
 
+        /**
+         * Permet d'initialiser le dictionnaire
+         * Permet aussi d'initialiser la liste box
+         */
         public Form1()
         {
             InitializeComponent();
             LoadDictionnary();
-            downloadManager = new DownloadManager(progressBar1, label1, button1);
+            LoadCheckedBoxList();
+            downloadManager = new DownloadManager(progressBar1, label1);
+        }
+
+        private void LoadCheckedBoxList()
+        {
+            checkedListBox1.Items.Add("AdoptOpenJdk");
+            checkedListBox1.Items.Add("Avast");
+            checkedListBox1.Items.Add("Steam");
         }
 
         private void button1_Click(object sender, EventArgs e)

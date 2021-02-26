@@ -13,19 +13,17 @@ namespace Downloader
         private WebClient WebClient;
         private ProgressBar ProgressBar;
         private Label Label;
-        private Button Button;
 
         public DownloadManager()
         {
             WebClient = new WebClient();
         }
 
-        public DownloadManager(ProgressBar progressBar, Label label, Button button)
+        public DownloadManager(ProgressBar progressBar, Label label)
         {
             WebClient = new WebClient();
             ProgressBar = progressBar;
             Label = label;
-            Button = button;
         }
 
         public async Task<bool> DownloadFile(List<string> fileList)
@@ -33,7 +31,7 @@ namespace Downloader
             bool result = false;
             WebClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(DownloadProgressChanged);
             WebClient.DownloadFileCompleted += new AsyncCompletedEventHandler(DownloadFileCompleted);
-            foreach(string file in fileList)
+            foreach (string file in fileList)
             {
                 try
                 {
