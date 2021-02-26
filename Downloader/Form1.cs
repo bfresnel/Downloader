@@ -23,6 +23,7 @@ namespace Downloader
             button1.Enabled = false;
             List<string> files = new List<string>();
             files.Add(UrlLink.adoptOpenJdkFileName);
+            files.Add(UrlLink.adoptOpenJdkFileName);
             Logger.Info("Démarrage du téléchargement du JDK");
             foreach(string fileToDownload in files)
             {
