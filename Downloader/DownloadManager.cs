@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Net;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Downloader
@@ -12,28 +13,42 @@ namespace Downloader
         private WebClient WebClient;
         private ProgressBar ProgressBar;
         private Label Label;
-        private List<string> FilesToDownload;
+        private Button Button;
 
         public DownloadManager()
         {
             WebClient = new WebClient();
         }
 
-        public DownloadManager(ProgressBar progressBar, Label label)
+        public DownloadManager(ProgressBar progressBar, Label label, Button button)
         {
             WebClient = new WebClient();
             ProgressBar = progressBar;
             Label = label;
+            Button = button;
         }
 
-        public void DownloadFile(List<string> filesToDownload)
+        public async Task<bool> DownloadFile(List<string> fileList)
         {
-            FilesToDownload = filesToDownload;
+            bool result = false;
             WebClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(DownloadProgressChanged);
             WebClient.DownloadFileCompleted += new AsyncCompletedEventHandler(DownloadFileCompleted);
-            WebClient.DownloadFileAsync(new Uri(UrlLink.adoptOpenJdkUrl), UrlLink.adoptOpenJdkFileName);
-            Label.Text = "Téléchargement d'AdoptOpenJDK...";
-            Label.Visible = true;
+            foreach(string file in fileList)
+            {
+                try
+                {
+                    Logger.Info("Downloading {0}...", file);
+                    await WebClient.DownloadFileTaskAsync(new Uri(UrlLink.adoptOpenJdkUrl), UrlLink.adoptOpenJdkFileName);
+                    Logger.Info("Download for {0} completed !", file);
+                    result = true;
+                }
+                catch (Exception ex)
+                {
+                    result = false;
+                    throw new Exception(ex.Message);
+                }
+            }
+            return result;
         }
 
         private void DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
@@ -47,12 +62,7 @@ namespace Downloader
 
         private void DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
-            Logger.Info("Download completed");
-            Logger.Debug("DownloadFileCompleted() -> isBusy ? " + WebClient.IsBusy);
-            FilesToDownload.Remove(UrlLink.adoptOpenJdkFileName);
-            MessageBox.Show("Téléchargement terminé", "info", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            Label.Visible = false;
-
+            Logger.Debug("Download completed");
         }
 
         private void updateProgressBar(ProgressBar progressBar, int pourcentage)
