@@ -2,15 +2,17 @@
 {
     class FileMetadata
     {
-        private string Filename { get; set; }
-        private string Url { get; set; }
+        public string Name { get; }
+        public string Filename { get; }
+        public string Url { get; }
 
         public FileMetadata() { }
 
-        public FileMetadata(string filename, string url)
+        public FileMetadata(string name, string url, string filename)
         {
-            Filename = filename;
+            Name = name;
             Url = url;
+            Filename = filename;
         }
     }
 }
