@@ -49,7 +49,7 @@
             this.button1.TabIndex = 1;
             this.button1.Text = "Téléchargement";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.Click += new System.EventHandler(this.Button1_Click);
             // 
             // label1
             // 
@@ -71,6 +71,7 @@
             this.checkedListBox1.Size = new System.Drawing.Size(332, 154);
             this.checkedListBox1.Sorted = true;
             this.checkedListBox1.TabIndex = 0;
+            this.checkedListBox1.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.CheckedListBox1_ItemCheck);
             // 
             // Form1
             // 
@@ -87,6 +88,7 @@
             this.MinimizeBox = false;
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
 
         }

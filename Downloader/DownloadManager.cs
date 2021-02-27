@@ -10,9 +10,9 @@ namespace Downloader
     class DownloadManager
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
-        private WebClient WebClient;
-        private ProgressBar ProgressBar;
-        private Label Label;
+        private readonly WebClient WebClient;
+        private readonly ProgressBar ProgressBar;
+        private readonly Label Label;
 
         public DownloadManager()
         {
@@ -54,7 +54,7 @@ namespace Downloader
             Label.Text = "Téléchargement d'AdoptOpenJDK..." + e.ProgressPercentage + "%";
             if (ProgressBar != null)
             {
-                updateProgressBar(ProgressBar, e.ProgressPercentage);
+                UpdateProgressBar(ProgressBar, e.ProgressPercentage);
             }
         }
 
@@ -63,7 +63,7 @@ namespace Downloader
             Logger.Debug("Download completed");
         }
 
-        private void updateProgressBar(ProgressBar progressBar, int pourcentage)
+        private void UpdateProgressBar(ProgressBar progressBar, int pourcentage)
         {
             progressBar.Value = pourcentage;
         }
