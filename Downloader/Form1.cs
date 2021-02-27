@@ -8,7 +8,6 @@ namespace Downloader
     public partial class Form1 : Form
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
-        private Dictionary<UrlLink.EnumLinks, string> LinkMap;
         private DownloadManager downloadManager;
 
         /**
@@ -46,9 +45,13 @@ namespace Downloader
         private void CheckedListBox1_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             if (checkedListBox1.CheckedItems.Count == 0)
+            {
                 button1.Enabled = true;
+            }
             else
+            {
                 button1.Enabled = false;
+            }
         }
 
         private void LoadCheckedBoxList()
@@ -58,11 +61,10 @@ namespace Downloader
 
         private void LoadDictionnary()
         {
-            Dictionary<UrlLink.EnumLinks, string> linkMapLocal = new Dictionary<UrlLink.EnumLinks, string>
+            _ = new Dictionary<UrlLink.EnumLinks, string>
             {
                 { UrlLink.EnumLinks.ADOPTOPENJDK, UrlLink.adoptOpenJdkUrl }
             };
-            LinkMap = linkMapLocal;
         }
 
 
