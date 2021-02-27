@@ -26,18 +26,18 @@ namespace Downloader
             Label = label;
         }
 
-        public async Task<bool> DownloadFile(List<string> fileList)
+        public async Task<bool> DownloadFile(List<FileMetadata> fileList)
         {
             bool result = false;
             WebClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(DownloadProgressChanged);
             WebClient.DownloadFileCompleted += new AsyncCompletedEventHandler(DownloadFileCompleted);
-            foreach (string file in fileList)
+            foreach (FileMetadata filemetadata in fileList)
             {
                 try
                 {
-                    Logger.Info("Downloading {0}...", file);
-                    await WebClient.DownloadFileTaskAsync(new Uri(UrlLink.adoptOpenJdkUrl), UrlLink.adoptOpenJdkFileName);
-                    Logger.Info("Download for {0} completed !", file);
+                    Logger.Info("Downloading {0}...", filemetadata.Filename);
+                    await WebClient.DownloadFileTaskAsync(filemetadata.Url, filemetadata.Filename);
+                    Logger.Info("Download for {0} completed !", filemetadata.Filename);
                     result = true;
                 }
                 catch (Exception ex)
