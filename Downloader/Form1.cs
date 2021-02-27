@@ -10,27 +10,50 @@ namespace Downloader
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         private Dictionary<UrlLink.EnumLinks, string> LinkMap;
         private DownloadManager downloadManager;
-        private DialogResult dr;
 
+        /**
+         * Permet d'initialiser le dictionnaire
+         * Permet aussi d'initialiser la liste box
+         */
         public Form1()
         {
             InitializeComponent();
-            LoadDictionnary();
-            downloadManager = new DownloadManager(progressBar1, label1, button1);
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Form1_Load(object sender, EventArgs e)
         {
             button1.Enabled = false;
-            List<string> files = new List<string>();
-            files.Add(UrlLink.adoptOpenJdkFileName);
-            files.Add(UrlLink.adoptOpenJdkFileName);
+            LoadDictionnary();
+            LoadCheckedBoxList();
+            downloadManager = new DownloadManager(progressBar1, label1);
+        }
+
+        private void Button1_Click(object sender, EventArgs e)
+        {
+            button1.Enabled = false;
+            List<string> files = new List<string>
+            {
+                UrlLink.adoptOpenJdkFileName
+            };
             label1.Text = "Téléchargement d'AdoptOpenJDK...";
             label1.Visible = true;
             Logger.Info("Démarrage du téléchargement du JDK");
             Task task = downloadManager.DownloadFile(files);
             task.ContinueWith(
                 t => MessageBox.Show("Téléchargement terminé", "info", MessageBoxButtons.OK, MessageBoxIcon.Information));
+        }
+
+        private void CheckedListBox1_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            if (checkedListBox1.CheckedItems.Count == 0)
+                button1.Enabled = true;
+            else
+                button1.Enabled = false;
+        }
+
+        private void LoadCheckedBoxList()
+        {
+            checkedListBox1.Items.Add("AdoptOpenJdk");
         }
 
         private void LoadDictionnary()
@@ -41,5 +64,9 @@ namespace Downloader
             };
             LinkMap = linkMapLocal;
         }
+
+
+
+
     }
 }

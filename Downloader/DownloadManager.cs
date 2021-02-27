@@ -10,22 +10,20 @@ namespace Downloader
     class DownloadManager
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
-        private WebClient WebClient;
-        private ProgressBar ProgressBar;
-        private Label Label;
-        private Button Button;
+        private readonly WebClient WebClient;
+        private readonly ProgressBar ProgressBar;
+        private readonly Label Label;
 
         public DownloadManager()
         {
             WebClient = new WebClient();
         }
 
-        public DownloadManager(ProgressBar progressBar, Label label, Button button)
+        public DownloadManager(ProgressBar progressBar, Label label)
         {
             WebClient = new WebClient();
             ProgressBar = progressBar;
             Label = label;
-            Button = button;
         }
 
         public async Task<bool> DownloadFile(List<string> fileList)
@@ -33,7 +31,7 @@ namespace Downloader
             bool result = false;
             WebClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(DownloadProgressChanged);
             WebClient.DownloadFileCompleted += new AsyncCompletedEventHandler(DownloadFileCompleted);
-            foreach(string file in fileList)
+            foreach (string file in fileList)
             {
                 try
                 {
@@ -56,7 +54,7 @@ namespace Downloader
             Label.Text = "Téléchargement d'AdoptOpenJDK..." + e.ProgressPercentage + "%";
             if (ProgressBar != null)
             {
-                updateProgressBar(ProgressBar, e.ProgressPercentage);
+                UpdateProgressBar(ProgressBar, e.ProgressPercentage);
             }
         }
 
@@ -65,7 +63,7 @@ namespace Downloader
             Logger.Debug("Download completed");
         }
 
-        private void updateProgressBar(ProgressBar progressBar, int pourcentage)
+        private void UpdateProgressBar(ProgressBar progressBar, int pourcentage)
         {
             progressBar.Value = pourcentage;
         }
