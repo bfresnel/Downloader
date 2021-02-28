@@ -25,7 +25,6 @@ namespace Downloader
         private void DownloadButton_Click(object sender, EventArgs e)
         {
             List<FileMetadata> filesToDownload = RetrieveAllCheckedValue();
-            //downloadButton.Enabled = false;
             if (filesToDownload.Count > 0)
             {
                 downloadLabel.Text = "Téléchargement d'AdoptOpenJDK...";
@@ -40,7 +39,8 @@ namespace Downloader
         private void LoadCheckedBoxList()
         {
             FileMetadataList.Add(new FileMetadata(UrlLink.adoptOpenJdkName, UrlLink.adoptOpenJdkUrl, UrlLink.adoptOpenJdkFileName));
-            FileMetadataList.Add(new FileMetadata(UrlLink.avastName,UrlLink.avastUrl, UrlLink.avastFileName));
+            FileMetadataList.Add(new FileMetadata(UrlLink.avastName, UrlLink.avastUrl, UrlLink.avastFileName));
+            FileMetadataList.Add(new FileMetadata(UrlLink.steamName, UrlLink.steamUrl, UrlLink.steamFileName));
             foreach (FileMetadata fileMetada in FileMetadataList)
             {
                 checkedListBox1.Items.Add(fileMetada);
