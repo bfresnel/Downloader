@@ -26,12 +26,12 @@ namespace Downloader
             Label = label;
         }
 
-        public async Task<bool> DownloadFile(List<FileMetadata> fileList)
+        public async Task<bool> DownloadFiles(List<FileMetadata> filesToDownload)
         {
             bool result = false;
             WebClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(DownloadProgressChanged);
             WebClient.DownloadFileCompleted += new AsyncCompletedEventHandler(DownloadFileCompleted);
-            foreach (FileMetadata filemetadata in fileList)
+            foreach (FileMetadata filemetadata in filesToDownload)
             {
                 try
                 {
