@@ -40,6 +40,7 @@ namespace Downloader
         {
             FileMetadataList.Add(new FileMetadata(UrlLink.adoptOpenJdkName, UrlLink.adoptOpenJdkUrl, UrlLink.adoptOpenJdkFileName));
             FileMetadataList.Add(new FileMetadata(UrlLink.avastName, UrlLink.avastUrl, UrlLink.avastFileName));
+            FileMetadataList.Add(new FileMetadata(UrlLink.chromeName, UrlLink.chromeUrl, UrlLink.chromeFileName));
             FileMetadataList.Add(new FileMetadata(UrlLink.steamName, UrlLink.steamUrl, UrlLink.steamFileName));
             foreach (FileMetadata fileMetada in FileMetadataList)
             {
