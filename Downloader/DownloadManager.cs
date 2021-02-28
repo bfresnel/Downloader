@@ -13,6 +13,7 @@ namespace Downloader
         private readonly WebClient WebClient;
         private readonly ProgressBar ProgressBar;
         private readonly Label Label;
+        private string CurrentFile;
 
         public DownloadManager()
         {
@@ -35,6 +36,7 @@ namespace Downloader
             {
                 try
                 {
+                    CurrentFile = filemetadata.Name;
                     Logger.Info("Downloading {0}...", filemetadata.Filename);
                     await WebClient.DownloadFileTaskAsync(filemetadata.Url, filemetadata.Filename);
                     Logger.Info("Download for {0} completed !", filemetadata.Filename);
@@ -51,7 +53,7 @@ namespace Downloader
 
         private void DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
-            Label.Text = "Téléchargement d'AdoptOpenJDK..." + e.ProgressPercentage + "%";
+            Label.Text = "Téléchargement de " + CurrentFile + "..." + e.ProgressPercentage + "%";
             if (ProgressBar != null)
             {
                 UpdateProgressBar(ProgressBar, e.ProgressPercentage);
