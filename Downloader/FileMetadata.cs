@@ -14,5 +14,10 @@
             Url = url;
             Filename = filename;
         }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }
