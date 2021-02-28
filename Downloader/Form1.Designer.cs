@@ -32,29 +32,31 @@
             this.downloadButton = new System.Windows.Forms.Button();
             this.downloadLabel = new System.Windows.Forms.Label();
             this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
+            this.selectAllButton = new System.Windows.Forms.Button();
+            this.DeselectAllButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // progressBar1
+            // downloadProgressBar
             // 
-            this.downloadProgressBar.Location = new System.Drawing.Point(12, 204);
-            this.downloadProgressBar.Name = "progressBar1";
+            this.downloadProgressBar.Location = new System.Drawing.Point(12, 221);
+            this.downloadProgressBar.Name = "downloadProgressBar";
             this.downloadProgressBar.Size = new System.Drawing.Size(332, 31);
             this.downloadProgressBar.TabIndex = 0;
             // 
-            // button1
+            // downloadButton
             // 
-            this.downloadButton.Location = new System.Drawing.Point(98, 241);
-            this.downloadButton.Name = "button1";
+            this.downloadButton.Location = new System.Drawing.Point(98, 258);
+            this.downloadButton.Name = "downloadButton";
             this.downloadButton.Size = new System.Drawing.Size(143, 23);
             this.downloadButton.TabIndex = 1;
             this.downloadButton.Text = "Téléchargement";
             this.downloadButton.UseVisualStyleBackColor = true;
             this.downloadButton.Click += new System.EventHandler(this.DownloadButton_Click);
             // 
-            // label1
+            // downloadLabel
             // 
-            this.downloadLabel.Location = new System.Drawing.Point(12, 181);
-            this.downloadLabel.Name = "label1";
+            this.downloadLabel.Location = new System.Drawing.Point(12, 198);
+            this.downloadLabel.Name = "downloadLabel";
             this.downloadLabel.Size = new System.Drawing.Size(332, 20);
             this.downloadLabel.TabIndex = 2;
             this.downloadLabel.Text = "label1";
@@ -70,12 +72,34 @@
             this.checkedListBox1.Sorted = true;
             this.checkedListBox1.TabIndex = 0;
             // 
+            // selectAllButton
+            // 
+            this.selectAllButton.Location = new System.Drawing.Point(12, 157);
+            this.selectAllButton.Name = "selectAllButton";
+            this.selectAllButton.Size = new System.Drawing.Size(75, 23);
+            this.selectAllButton.TabIndex = 3;
+            this.selectAllButton.Text = "Select All";
+            this.selectAllButton.UseVisualStyleBackColor = true;
+            this.selectAllButton.Click += new System.EventHandler(this.SelectAllButton_Click);
+            // 
+            // DeselectAllButton
+            // 
+            this.DeselectAllButton.Location = new System.Drawing.Point(98, 157);
+            this.DeselectAllButton.Name = "DeselectAllButton";
+            this.DeselectAllButton.Size = new System.Drawing.Size(75, 23);
+            this.DeselectAllButton.TabIndex = 4;
+            this.DeselectAllButton.Text = "Deselect All";
+            this.DeselectAllButton.UseVisualStyleBackColor = true;
+            this.DeselectAllButton.Click += new System.EventHandler(this.DeselectAllButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(354, 298);
+            this.ClientSize = new System.Drawing.Size(355, 306);
+            this.Controls.Add(this.DeselectAllButton);
+            this.Controls.Add(this.selectAllButton);
             this.Controls.Add(this.checkedListBox1);
             this.Controls.Add(this.downloadLabel);
             this.Controls.Add(this.downloadButton);
@@ -96,6 +120,8 @@
         private System.Windows.Forms.Button downloadButton;
         private System.Windows.Forms.Label downloadLabel;
         private System.Windows.Forms.CheckedListBox checkedListBox1;
+        private System.Windows.Forms.Button selectAllButton;
+        private System.Windows.Forms.Button DeselectAllButton;
     }
 }
 

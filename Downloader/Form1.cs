@@ -58,5 +58,29 @@ namespace Downloader
             }
             return listToReturn;
         }
+
+        private void SelectAllButton_Click(object sender, EventArgs e)
+        {
+            foreach (FileMetadata software in FileMetadataList)
+            {
+                int index = checkedListBox1.Items.IndexOf(software);
+                if (checkedListBox1.GetItemCheckState(index) != CheckState.Checked)
+                {
+                    checkedListBox1.SetItemCheckState(index, CheckState.Checked);
+                }
+            }
+        }
+
+        private void DeselectAllButton_Click(object sender, EventArgs e)
+        {
+            foreach (FileMetadata software in FileMetadataList)
+            {
+                int index = checkedListBox1.Items.IndexOf(software);
+                if (checkedListBox1.GetItemCheckState(index) != CheckState.Unchecked)
+                {
+                    checkedListBox1.SetItemCheckState(index, CheckState.Unchecked);
+                }
+            }
+        }
     }
 }
