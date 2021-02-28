@@ -27,7 +27,7 @@ namespace Downloader
             List<FileMetadata> filesToDownload = RetrieveAllCheckedValue();
             if (filesToDownload.Count > 0)
             {
-                downloadLabel.Text = "Téléchargement d'AdoptOpenJDK...";
+                downloadLabel.Text = "Starting download...";
                 Logger.Info("Démarrage du téléchargement du JDK");
                 downloadLabel.Visible = true;
                 Task task = downloadManager.DownloadFiles(filesToDownload);
