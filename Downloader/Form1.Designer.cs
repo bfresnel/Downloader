@@ -80,6 +80,7 @@
             this.selectAllButton.TabIndex = 3;
             this.selectAllButton.Text = "Select All";
             this.selectAllButton.UseVisualStyleBackColor = true;
+            this.selectAllButton.Click += new System.EventHandler(this.SelectAllButton_Click);
             // 
             // DeselectAllButton
             // 
@@ -89,6 +90,7 @@
             this.DeselectAllButton.TabIndex = 4;
             this.DeselectAllButton.Text = "Deselect All";
             this.DeselectAllButton.UseVisualStyleBackColor = true;
+            this.DeselectAllButton.Click += new System.EventHandler(this.DeselectAllButton_Click);
             // 
             // Form1
             // 
